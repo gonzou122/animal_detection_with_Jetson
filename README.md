@@ -12,6 +12,8 @@ GPU:RTX3070<br>
 Docker<br>
 Docker desktop for windows<br>
 WSL2:ubuntu20.04<br>
+※GPU利用環境の構築手順<br>
+https://qiita.com/gonzou122/items/7b5e74d7c4c5f3e969af
 
 Jetson<br>
 Jetson B01(4GB)<br>
@@ -38,8 +40,41 @@ JetPack 4.5<br>
 ### 2:目的の動物の画像集め
 Google画像検索などを用いて画像の収集を行う。<br>
 手動では時間がかかるため、「icrawler」を用いてスクレイビングを行う。<br>
-https://github.com/hellock/icrawler
+https://github.com/hellock/icrawler <br>
 デスクトップPCのローカル環境ではなくDockerで実行する。<br>
+※Dockerfile未作成<br>
+
+Dockerのベースイメージ<br>
+ubuntu:20.04<br>
+イメージをpull後コンテナを起動して以下コマンドを実行<br>
+~~~
+WSL2のターミナル
+docker run -it ubuntu:20.04 bash
+~~~
+
+~~~
+コンテナ内
+apt update -y && apt upgrade -y
+apt install -y python3
+apt install -y python3-pip
+apt insatll -y icrawler
+~~~
+Ctrl+p,Ctrl+qでコンテナから抜けてコンテナをコミットしてimageを作成<br>
+~~~
+WSL2のターミナル
+docker commit <コンテナ名orコンテナID>　<イメージ名>
+~~~
+画像収集用のpyファイルを作成
+
+
+icrawlerが利用できるDockerイメージが作成されるので、ホストPCのフォルダをマウントしてDockerコンテナを起動する。<br>
+~~~
+WSL2のターミナル
+対象のフォルダに移動
+cd <dockerをマウントするフォルダ>
+docker run -it --rm -v $PWD:/opt <先ほど作成したイメージ名> bash
+~~~
+
 
 
 
