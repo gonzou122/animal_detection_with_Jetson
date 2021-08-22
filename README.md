@@ -64,17 +64,33 @@ Ctrl+p,Ctrl+qでコンテナから抜けてコンテナをコミットしてimag
 WSL2のターミナル
 docker commit <コンテナ名orコンテナID>　<イメージ名>
 ~~~
-画像収集用のpyファイルを作成
-
+画像収集用のpyファイルを作成してコンテナにマウントするホストPCのフォルダに格納する。
+https://github.com/gonzou122/animal_detection_with_Jetson/blob/main/image_download.py
 
 icrawlerが利用できるDockerイメージが作成されるので、ホストPCのフォルダをマウントしてDockerコンテナを起動する。<br>
+フォルダ構成<br>
+~~~
+── ./適当なフォルダ
+    ├────image_download.py(適当なフォルダの直下)
+    ├────(image_download.py実行後の画像格納フォルダ）
+~~~
+
 ~~~
 WSL2のターミナル
 対象のフォルダに移動
-cd <dockerをマウントするフォルダ>
+cd <コンテナをマウントするフォルダ>
 docker run -it --rm -v $PWD:/opt <先ほど作成したイメージ名> bash
 ~~~
 
+~~~
+コンテナのターミナル
+対象のフォルダに移動
+cd <コンテナをマウントするフォルダ>
+python3 image_download.py
+~~~
+ターミナルに結果が出力される。画像はコンテナをマウントしたフォルダの直下に新しく作成されたフォルダに格納されている。<br>
 
+### 3:画像のリサイズ:デスクトップPC(docker)
+作成中
 
 
